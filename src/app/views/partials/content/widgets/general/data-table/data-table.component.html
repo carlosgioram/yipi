@@ -1,0 +1,77 @@
+<!-- See off.documentations 'https://material.angular.io/components/table/overview' -->
+<div perfectScrollbar [ngStyle]="{'max-height': '43vh', 'position': 'relative'}" class="mat-table__wrapper mat-table__wrapper--dashboard mb-4">
+	<!-- Checkbox Column -->
+	<!-- Table with selection -->
+	<!-- https://run.stackblitz.com/api/angular/v1?file=app%2Ftable-selection-example.ts -->
+	<table mat-table class="lmat-elevation-z8" [dataSource]="dataSource" matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+		<ng-container matColumnDef="id">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Número de Auto</th>
+			<td mat-cell *matCellDef="let product" class="mat-column-vinCode">{{product.id}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cManufacture">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Fabricante</th>
+			<td mat-cell *matCellDef="let product">{{product.cManufacture}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cModel">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+			<td mat-cell *matCellDef="let product">{{product.cModel}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cModelYear">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo (año)</th>
+			<td mat-cell *matCellDef="let product">{{product.cModelYear}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cMileage">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Zona sitio</th>
+			<td mat-cell *matCellDef="let product">{{product.cMileage}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cColor">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
+			<td mat-cell *matCellDef="let product" [ngStyle]="{ 'color' : product.cColor }">{{product.cColor}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cPrice">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Chofer</th>
+			<td mat-cell *matCellDef="let product">{{product.cPrice}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cStatus">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
+			<td mat-cell *matCellDef="let product">{{ getItemStatusString(product.cStatus)}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="cCondition">
+			<th mat-header-cell *matHeaderCellDef mat-sort-header>Franquicia</th>
+			<td mat-cell *matCellDef="let product">{{ getItemConditionString(product.cCondition)}}</td>
+		</ng-container>
+
+		<ng-container matColumnDef="actions">
+			<th mat-header-cell *matHeaderCellDef width="106px" class="kt-pl-13">
+				Editar
+			</th>
+			<td mat-cell *matCellDef="let product">
+				<button mat-icon-button color="primary" matTooltip="Edit item">
+					<mat-icon>edits</mat-icon>
+				</button>
+				<button mat-icon-button color="warn" type="button" matTooltip="Delete item">
+					<mat-icon>delete</mat-icon>
+				</button>
+			</td>
+		</ng-container>
+
+		<tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+		<tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+	</table>
+
+	<div class="mat-table__message" *ngIf="!dataSource.hasItems">no existen registros</div>
+</div>
+<!-- start: BOTTOM -->
+<div class="mat-table__bottom mat-table__bottom--padding">
+	<mat-spinner [diameter]="20" *ngIf="dataSource.loading$ | async"></mat-spinner>
+	<mat-paginator [pageSize]="6" [pageSizeOptions]="[3, 6, 15]" [length]="dataSource.paginatorTotal$ | async" [showFirstLastButtons]="true"></mat-paginator>
+</div>
+<!-- end: BOTTOM -->
